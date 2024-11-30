@@ -21,6 +21,8 @@ import com.ezylang.evalex.data.EvaluationValue;
 import com.ezylang.evalex.functions.AbstractFunction;
 import com.ezylang.evalex.functions.FunctionParameter;
 import com.ezylang.evalex.parser.Token;
+import com.ezylang.evalex.utils.CollUtil;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -90,7 +92,7 @@ public class DateTimeNewFunction extends AbstractFunction {
     }
 
     if (parameterValues[parameterLength - 1].isStringValue()) {
-      if (!Set.of(TimeZone.getAvailableIDs())
+      if (!CollUtil.newHashSet(TimeZone.getAvailableIDs())
           .contains(parameterValues[parameterLength - 1].getStringValue())) {
         throw new EvaluationException(
             token,

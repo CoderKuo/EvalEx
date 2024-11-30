@@ -23,6 +23,8 @@ import com.ezylang.evalex.operators.AbstractOperator;
 import com.ezylang.evalex.operators.PostfixOperator;
 import com.ezylang.evalex.operators.PrefixOperator;
 import com.ezylang.evalex.parser.Token;
+import com.ezylang.evalex.utils.Pair;
+
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.util.Locale;
@@ -36,10 +38,10 @@ public class TestConfigurationProvider {
           .locale(Locale.US)
           .build()
           .withAdditionalOperators(
-              Map.entry("++", new PrefixPlusPlusOperator()),
-              Map.entry("++", new PostfixPlusPlusOperator()),
-              Map.entry("?", new PostfixQuestionOperator()))
-          .withAdditionalFunctions(Map.entry("TEST", new DummyFunction()));
+              Pair.of("++", new PrefixPlusPlusOperator()),
+              Pair.of("++", new PostfixPlusPlusOperator()),
+              Pair.of("?", new PostfixQuestionOperator()))
+          .withAdditionalFunctions(Pair.of("TEST", new DummyFunction()));
 
   public static final ExpressionConfiguration GermanConfiguration =
       ExpressionConfiguration.builder()

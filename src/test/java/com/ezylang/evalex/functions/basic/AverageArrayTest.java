@@ -21,6 +21,8 @@ import com.ezylang.evalex.EvaluationException;
 import com.ezylang.evalex.Expression;
 import com.ezylang.evalex.parser.ParseException;
 import java.util.List;
+
+import com.ezylang.evalex.utils.ListUtil;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -41,8 +43,8 @@ class AverageArrayTest {
 
   @Test
   void testAverageMultipleArray() throws EvaluationException, ParseException {
-    List<Number> numbers1 = List.of(1, 2, 3);
-    List<Number> numbers2 = List.of(4, 5, 6);
+    List<Number> numbers1 = ListUtil.of(1, 2, 3);
+    List<Number> numbers2 = ListUtil.of(4, 5, 6);
 
     Expression expression =
         new Expression("AVERAGE(numbers1, numbers2)")

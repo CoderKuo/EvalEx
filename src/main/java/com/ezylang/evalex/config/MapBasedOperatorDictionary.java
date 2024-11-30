@@ -18,6 +18,8 @@ package com.ezylang.evalex.config;
 import static java.util.Arrays.stream;
 
 import com.ezylang.evalex.operators.OperatorIfc;
+import com.ezylang.evalex.utils.Pair;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -41,7 +43,7 @@ public class MapBasedOperatorDictionary implements OperatorDictionaryIfc {
    * @return A newly created operator dictionary with the specified operators.
    */
   @SuppressWarnings({"unchecked", "varargs"})
-  public static OperatorDictionaryIfc ofOperators(Map.Entry<String, OperatorIfc>... operators) {
+  public static OperatorDictionaryIfc ofOperators(Pair<String, OperatorIfc>... operators) {
     OperatorDictionaryIfc dictionary = new MapBasedOperatorDictionary();
     stream(operators).forEach(entry -> dictionary.addOperator(entry.getKey(), entry.getValue()));
     return dictionary;

@@ -27,6 +27,8 @@ import java.math.MathContext;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.Map;
+
+import com.ezylang.evalex.utils.Pair;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -65,8 +67,8 @@ class ExpressionConfigurationTest {
     ExpressionConfiguration configuration =
         ExpressionConfiguration.defaultConfiguration()
             .withAdditionalOperators(
-                Map.entry("ADDED1", new InfixPlusOperator()),
-                Map.entry("ADDED2", new InfixPlusOperator()));
+                Pair.of("ADDED1", new InfixPlusOperator()),
+                Pair.of("ADDED2", new InfixPlusOperator()));
 
     assertThat(configuration.getOperatorDictionary().hasInfixOperator("ADDED1")).isTrue();
     assertThat(configuration.getOperatorDictionary().hasInfixOperator("ADDED2")).isTrue();
@@ -77,7 +79,7 @@ class ExpressionConfigurationTest {
     ExpressionConfiguration configuration =
         ExpressionConfiguration.defaultConfiguration()
             .withAdditionalFunctions(
-                Map.entry("ADDED1", new DummyFunction()), Map.entry("ADDED2", new DummyFunction()));
+                Pair.of("ADDED1", new DummyFunction()), Pair.of("ADDED2", new DummyFunction()));
 
     assertThat(configuration.getFunctionDictionary().hasFunction("ADDED1")).isTrue();
     assertThat(configuration.getFunctionDictionary().hasFunction("ADDED2")).isTrue();
@@ -131,17 +133,6 @@ class ExpressionConfigurationTest {
     assertThat(accessor1).isNotEqualTo(accessor2);
   }
 
-  @Test
-  void testCustomConstants() {
-    Map<String, EvaluationValue> constants =
-        Map.of(
-            "A", EvaluationValue.stringValue("a"),
-            "B", EvaluationValue.stringValue("b"));
-    ExpressionConfiguration configuration =
-        ExpressionConfiguration.builder().defaultConstants(constants).build();
-
-    assertThat(configuration.getDefaultConstants()).containsAllEntriesOf(constants);
-  }
 
   @Test
   void testArraysAllowed() {

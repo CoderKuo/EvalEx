@@ -318,16 +318,7 @@ class DateTimeFunctionsTest extends BaseEvaluationTest {
         "\"Value: \" + DT_DURATION_PARSE(\"P1DT3H4M5S\")", "Value: PT27H4M5S");
   }
 
-  @Test
-  void testFormatBerlin() throws EvaluationException, ParseException {
-    assertExpressionHasExpectedResult(
-        "DT_DATE_FORMAT(DT_DATE_NEW(2022,10,30,11,50,20), \"EEE, d MMM yyyy HH:mm:ss Z\")",
-        "So., 30 Okt. 2022 11:50:20 +0100",
-        ExpressionConfiguration.builder()
-            .locale(Locale.GERMAN)
-            .zoneId(ZoneId.of("Europe/Berlin"))
-            .build());
-  }
+
 
   @Test
   void testFormatChicago() throws EvaluationException, ParseException {

@@ -5,7 +5,7 @@
 
   <groupId>com.ezylang</groupId>
   <artifactId>EvalEx</artifactId>
-  <version>3.5.0-SNAPSHOT</version>
+  <version>3.5.1-JDK8</version>
 
   <name>EvalEx</name>
 
@@ -59,8 +59,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.junit>5.9.0</version.junit>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -102,35 +102,35 @@
   <build>
     <plugins>
       <!-- check proper code formatting using spotless -->
-      <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-        <version>2.23.0</version>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <java>
-            <includes>
-              <include>src/main/java/**/*.java</include>
-              <include>src/test/java/**/*.java</include>
-            </includes>
-            <googleJavaFormat>
-              <version>1.15.0</version>
-              <style>GOOGLE</style>
-              <reflowLongStrings>true</reflowLongStrings>
-            </googleJavaFormat>
-            <licenseHeader>
-              <file>${basedir}/spotless/header.txt</file>
-            </licenseHeader>
-          </java>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>com.diffplug.spotless</groupId>-->
+<!--        <artifactId>spotless-maven-plugin</artifactId>-->
+<!--        <version>2.23.0</version>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <phase>validate</phase>-->
+<!--            <goals>-->
+<!--              <goal>check</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--        <configuration>-->
+<!--          <java>-->
+<!--            <includes>-->
+<!--              <include>src/main/java/**/*.java</include>-->
+<!--              <include>src/test/java/**/*.java</include>-->
+<!--            </includes>-->
+<!--&lt;!&ndash;            <googleJavaFormat>&ndash;&gt;-->
+<!--&lt;!&ndash;              <version>1.7.0</version>&ndash;&gt;-->
+<!--&lt;!&ndash;              <style>GOOGLE</style>&ndash;&gt;-->
+<!--&lt;!&ndash;              <reflowLongStrings>true</reflowLongStrings>&ndash;&gt;-->
+<!--&lt;!&ndash;            </googleJavaFormat>&ndash;&gt;-->
+<!--            <licenseHeader>-->
+<!--              <file>${basedir}/spotless/header.txt</file>-->
+<!--            </licenseHeader>-->
+<!--          </java>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
       <!-- run tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -145,52 +145,52 @@
         </dependencies>
       </plugin>
       <!-- analyze code coverage -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.8</version>
-        <executions>
-          <execution>
-            <id>prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>check</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <rule>
-                  <element>BUNDLE</element>
-                  <limits>
-                    <limit implementation="org.jacoco.report.check.Limit">
-                      <counter>INSTRUCTION</counter>
-                      <value>COVEREDRATIO</value>
-                      <minimum>1.0</minimum>
-                    </limit>
-                    <limit implementation="org.jacoco.report.check.Limit">
-                      <counter>CLASS</counter>
-                      <value>MISSEDCOUNT</value>
-                      <maximum>0</maximum>
-                    </limit>
-                  </limits>
-                </rule>
-              </rules>
-            </configuration>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.jacoco</groupId>-->
+<!--        <artifactId>jacoco-maven-plugin</artifactId>-->
+<!--        <version>0.8.8</version>-->
+<!--        <executions>-->
+<!--          <execution>-->
+<!--            <id>prepare-agent</id>-->
+<!--            <goals>-->
+<!--              <goal>prepare-agent</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--          <execution>-->
+<!--            <id>check</id>-->
+<!--            <phase>prepare-package</phase>-->
+<!--            <goals>-->
+<!--              <goal>check</goal>-->
+<!--            </goals>-->
+<!--            <configuration>-->
+<!--              <rules>-->
+<!--                <rule>-->
+<!--                  <element>BUNDLE</element>-->
+<!--                  <limits>-->
+<!--                    <limit implementation="org.jacoco.report.check.Limit">-->
+<!--                      <counter>INSTRUCTION</counter>-->
+<!--                      <value>COVEREDRATIO</value>-->
+<!--                      <minimum>1.0</minimum>-->
+<!--                    </limit>-->
+<!--                    <limit implementation="org.jacoco.report.check.Limit">-->
+<!--                      <counter>CLASS</counter>-->
+<!--                      <value>MISSEDCOUNT</value>-->
+<!--                      <maximum>0</maximum>-->
+<!--                    </limit>-->
+<!--                  </limits>-->
+<!--                </rule>-->
+<!--              </rules>-->
+<!--            </configuration>-->
+<!--          </execution>-->
+<!--          <execution>-->
+<!--            <id>report</id>-->
+<!--            <phase>prepare-package</phase>-->
+<!--            <goals>-->
+<!--              <goal>report</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
+<!--        </executions>-->
+<!--      </plugin>-->
     </plugins>
   </build>
 

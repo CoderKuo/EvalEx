@@ -15,113 +15,116 @@
 */
 package com.ezylang.evalex;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import com.ezylang.evalex.parser.ParseException;
+import com.ezylang.evalex.utils.ListUtil;
+import com.ezylang.evalex.utils.MapUtil;
+import org.junit.jupiter.api.Test;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ExpressionEvaluatorStructureTest extends BaseExpressionEvaluatorTest {
 
-  @Test
-  void testStructureScientificNumberDistinction() throws EvaluationException, ParseException {
-    Map<String, BigDecimal> structure = Map.of("environment_id", new BigDecimal(12345));
-    Expression expression = new Expression("order.environment_id").with("order", structure);
+    @Test
+    void testStructureScientificNumberDistinction() throws EvaluationException, ParseException {
+        Map<String, BigDecimal> structure = MapUtil.of("environment_id", new BigDecimal(12345));
+        Expression expression = new Expression("order.environment_id").with("order", structure);
 
-    assertThat(expression.evaluate().getStringValue()).isEqualTo("12345");
-  }
+        assertThat(expression.evaluate().getStringValue()).isEqualTo("12345");
+    }
 
-  @Test
-  void testStructureScientificNumberDistinctionMultiple()
-      throws EvaluationException, ParseException {
-    Map<String, Object> structure1 = new HashMap<>();
-    Map<String, Object> structure2 = new HashMap<>();
-    Map<String, Object> structure3 = new HashMap<>();
+    @Test
+    void testStructureScientificNumberDistinctionMultiple()
+            throws EvaluationException, ParseException {
+        Map<String, Object> structure1 = new HashMap<>();
+        Map<String, Object> structure2 = new HashMap<>();
+        Map<String, Object> structure3 = new HashMap<>();
 
-    structure3.put("e", new BigDecimal("765"));
-    structure2.put("var_x", structure3);
-    structure1.put("e_id_e", structure2);
+        structure3.put("e", new BigDecimal("765"));
+        structure2.put("var_x", structure3);
+        structure1.put("e_id_e", structure2);
 
-    Expression expression = new Expression("order.e_id_e.var_x.e").with("order", structure1);
+        Expression expression = new Expression("order.e_id_e.var_x.e").with("order", structure1);
 
-    assertThat(expression.evaluate().getStringValue()).isEqualTo("765");
-  }
+        assertThat(expression.evaluate().getStringValue()).isEqualTo("765");
+    }
 
-  @Test
-  void testSimpleStructure() throws ParseException, EvaluationException {
-    Map<String, BigDecimal> structure = Map.of("b", new BigDecimal(99));
+    @Test
+    void testSimpleStructure() throws ParseException, EvaluationException {
+        Map<String, BigDecimal> structure = MapUtil.of("b", new BigDecimal(99));
 
-    Expression expression = createExpression("a.b").with("a", structure);
+        Expression expression = createExpression("a.b").with("a", structure);
 
-    assertThat(expression.evaluate().getStringValue()).isEqualTo("99");
-  }
+        assertThat(expression.evaluate().getStringValue()).isEqualTo("99");
+    }
 
-  @Test
-  void testTripleStructure() throws ParseException, EvaluationException {
-    Map<String, Map<String, BigDecimal>> structure = new HashMap<>();
+    @Test
+    void testTripleStructure() throws ParseException, EvaluationException {
+        Map<String, Map<String, BigDecimal>> structure = new HashMap<>();
 
-    Map<String, BigDecimal> subStructure = Map.of("c", new BigDecimal(95));
+        Map<String, BigDecimal> subStructure = MapUtil.of("c", new BigDecimal(95));
 
-    structure.put("b", subStructure);
+        structure.put("b", subStructure);
 
-    Expression expression = createExpression("a.b.c").with("a", structure);
+        Expression expression = createExpression("a.b.c").with("a", structure);
 
-    assertThat(expression.evaluate().getStringValue()).isEqualTo("95");
-  }
+        assertThat(expression.evaluate().getStringValue()).isEqualTo("95");
+    }
 
-  @Test
-  void testThrowsUnsupportedDataTypeForStructure() {
-    assertThatThrownBy(() -> createExpression("a.b").with("a", "aString").evaluate())
-        .isInstanceOf(EvaluationException.class)
-        .hasMessage("Unsupported data types in operation");
-  }
+    @Test
+    void testThrowsUnsupportedDataTypeForStructure() {
+        assertThatThrownBy(() -> createExpression("a.b").with("a", "aString").evaluate())
+                .isInstanceOf(EvaluationException.class)
+                .hasMessage("Unsupported data types in operation");
+    }
 
-  @Test
-  void testThrowsFieldNotFound() {
-    Map<String, BigDecimal> testStructure = new HashMap<>();
-    testStructure.put("field1", new BigDecimal(3));
+    @Test
+    void testThrowsFieldNotFound() {
+        Map<String, BigDecimal> testStructure = new HashMap<>();
+        testStructure.put("field1", new BigDecimal(3));
 
-    assertThatThrownBy(
-            () -> createExpression("a.field1 + a.field2").with("a", testStructure).evaluate())
-        .isInstanceOf(EvaluationException.class)
-        .hasMessage("Field 'field2' not found in structure")
-        .extracting("startPosition")
-        .isEqualTo(14);
-  }
+        assertThatThrownBy(
+                () -> createExpression("a.field1 + a.field2").with("a", testStructure).evaluate())
+                .isInstanceOf(EvaluationException.class)
+                .hasMessage("Field 'field2' not found in structure")
+                .extracting("startPosition")
+                .isEqualTo(14);
+    }
 
-  @Test
-  void testStructureWithSpaceInName() throws EvaluationException, ParseException {
-    Map<String, BigDecimal> testStructure = new HashMap<>();
-    testStructure.put("field 1", new BigDecimal(88));
+    @Test
+    void testStructureWithSpaceInName() throws EvaluationException, ParseException {
+        Map<String, BigDecimal> testStructure = new HashMap<>();
+        testStructure.put("field 1", new BigDecimal(88));
 
-    Expression expression = createExpression("a.\"field 1\"").with("a", testStructure);
+        Expression expression = createExpression("a.\"field 1\"").with("a", testStructure);
 
-    assertThat(expression.evaluate().getStringValue()).isEqualTo("88");
-  }
+        assertThat(expression.evaluate().getStringValue()).isEqualTo("88");
+    }
 
-  @Test
-  void testTripleStructureWithSpaces() throws ParseException, EvaluationException {
-    Map<String, Object> structure = new HashMap<>();
-    Map<String, Object> subStructure = new HashMap<>();
-    subStructure.put("prop c", 99);
-    structure.put("prop b", List.of(subStructure));
+    @Test
+    void testTripleStructureWithSpaces() throws ParseException, EvaluationException {
+        Map<String, Object> structure = new HashMap<>();
+        Map<String, Object> subStructure = new HashMap<>();
+        subStructure.put("prop c", 99);
+        structure.put("prop b", ListUtil.of(subStructure));
 
-    Expression expression = createExpression("a.\"prop b\"[0].\"prop c\"").with("a", structure);
+        Expression expression = createExpression("a.\"prop b\"[0].\"prop c\"").with("a", structure);
 
-    assertThat(expression.evaluate().getStringValue()).isEqualTo("99");
-  }
+        assertThat(expression.evaluate().getStringValue()).isEqualTo("99");
+    }
 
-  @Test
-  void testStructureWithSpaceInNameAndArrayAccess() throws EvaluationException, ParseException {
-    Map<String, List<Integer>> structure = Map.of("b prop", Arrays.asList(1, 2, 3));
+    @Test
+    void testStructureWithSpaceInNameAndArrayAccess() throws EvaluationException, ParseException {
+        Map<String, List<Integer>> structure = MapUtil.of("b prop", Arrays.asList(1, 2, 3));
 
-    Expression expression = createExpression("a.\"b prop\"[1]").with("a", structure);
+        Expression expression = createExpression("a.\"b prop\"[1]").with("a", structure);
 
-    assertThat(expression.evaluate().getStringValue()).isEqualTo("2");
-  }
+        assertThat(expression.evaluate().getStringValue()).isEqualTo("2");
+    }
 }

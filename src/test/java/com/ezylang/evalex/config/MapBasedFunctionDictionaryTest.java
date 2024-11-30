@@ -21,6 +21,8 @@ import com.ezylang.evalex.functions.FunctionIfc;
 import com.ezylang.evalex.functions.basic.MaxFunction;
 import com.ezylang.evalex.functions.basic.MinFunction;
 import java.util.Map;
+
+import com.ezylang.evalex.utils.Pair;
 import org.junit.jupiter.api.Test;
 
 class MapBasedFunctionDictionaryTest {
@@ -32,7 +34,7 @@ class MapBasedFunctionDictionaryTest {
 
     @SuppressWarnings({"unchecked", "varargs"})
     FunctionDictionaryIfc dictionary =
-        MapBasedFunctionDictionary.ofFunctions(Map.entry("min", min), Map.entry("max", max));
+        MapBasedFunctionDictionary.ofFunctions(Pair.of("min", min), Pair.of("max", max));
 
     assertThat(dictionary.hasFunction("min")).isTrue();
     assertThat(dictionary.hasFunction("max")).isTrue();
@@ -50,7 +52,7 @@ class MapBasedFunctionDictionaryTest {
 
     @SuppressWarnings({"unchecked", "varargs"})
     FunctionDictionaryIfc dictionary =
-        MapBasedFunctionDictionary.ofFunctions(Map.entry("Min", min), Map.entry("MAX", max));
+        MapBasedFunctionDictionary.ofFunctions(Pair.of("Min", min), Pair.of("MAX", max));
 
     assertThat(dictionary.hasFunction("min")).isTrue();
     assertThat(dictionary.hasFunction("MIN")).isTrue();

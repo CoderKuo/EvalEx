@@ -18,6 +18,8 @@ package com.ezylang.evalex.config;
 import static java.util.Arrays.stream;
 
 import com.ezylang.evalex.functions.FunctionIfc;
+import com.ezylang.evalex.utils.Pair;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -37,7 +39,7 @@ public class MapBasedFunctionDictionary implements FunctionDictionaryIfc {
    * @return A newly created function dictionary with the specified functions.
    */
   @SuppressWarnings({"unchecked", "varargs"})
-  public static FunctionDictionaryIfc ofFunctions(Map.Entry<String, FunctionIfc>... functions) {
+  public static FunctionDictionaryIfc ofFunctions(Pair<String, FunctionIfc>... functions) {
     FunctionDictionaryIfc dictionary = new MapBasedFunctionDictionary();
     stream(functions).forEach(entry -> dictionary.addFunction(entry.getKey(), entry.getValue()));
     return dictionary;

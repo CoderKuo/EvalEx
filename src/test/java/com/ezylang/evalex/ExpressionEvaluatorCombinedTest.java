@@ -22,6 +22,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.ezylang.evalex.utils.ListUtil;
 import org.junit.jupiter.api.Test;
 
 class ExpressionEvaluatorCombinedTest extends BaseExpressionEvaluatorTest {
@@ -35,7 +37,7 @@ class ExpressionEvaluatorCombinedTest extends BaseExpressionEvaluatorTest {
     position.put("article", 3114);
     position.put("amount", 3);
     position.put("price", new BigDecimal("14.95"));
-    order.put("positions", List.of(position));
+    order.put("positions", ListUtil.of(position));
 
     Expression expression =
         new Expression("order.positions[x].amount * order.positions[x].price")

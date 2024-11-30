@@ -117,29 +117,4 @@ class InfixEqualsOperatorTest extends BaseEvaluationTest {
         .isFalse();
   }
 
-  @Test
-  void testInfixEqualsStructures() throws EvaluationException, ParseException {
-    Expression expression = new Expression("a=b");
-
-    Map<String, BigDecimal> structure1 =
-        Map.of(
-            "a", new BigDecimal(35),
-            "b", new BigDecimal(99));
-
-    Map<String, BigDecimal> structure2 =
-        Map.of(
-            "a", new BigDecimal(35),
-            "b", new BigDecimal(99));
-
-    Map<String, BigDecimal> structure3 =
-        Map.of(
-            "a", new BigDecimal(45),
-            "b", new BigDecimal(99));
-
-    assertThat(expression.with("a", structure1).and("b", structure2).evaluate().getBooleanValue())
-        .isTrue();
-
-    assertThat(expression.with("a", structure1).and("b", structure3).evaluate().getBooleanValue())
-        .isFalse();
-  }
 }

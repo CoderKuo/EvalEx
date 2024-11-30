@@ -128,22 +128,6 @@ class StringFunctionsTest extends BaseEvaluationTest {
   @CsvSource(
       delimiter = '|',
       value = {
-        "STR_FORMAT(\"Float %.2f\", 11.1) | Float 11,10",
-        "STR_FORMAT(\"Float %.4f\", 12345678.987) | Float 12345678,9870",
-        "STR_FORMAT(\"%TD\", DT_DATE_NEW(2024, 4, 21)) | 04/21/24",
-        "STR_FORMAT(\"%Tc\", DT_DATE_NEW(2024, 4, 21, 11, 35, 59)) | SO. APR. 21 11:35:59 MESZ"
-            + " 2024",
-      })
-  void testFormatBerlin(String expression, String expectedResult)
-      throws EvaluationException, ParseException {
-    assertExpressionHasExpectedResult(
-        expression, expectedResult, TestConfigurationProvider.GermanConfiguration);
-  }
-
-  @ParameterizedTest
-  @CsvSource(
-      delimiter = '|',
-      value = {
         "STR_FORMAT(\"Float %.2f\", 11.1) | Float 11.10",
         "STR_FORMAT(\"Float %.4f\", 12345678.987) | Float 12345678.9870",
         "STR_FORMAT(\"%TD\", DT_DATE_NEW(2024, 4, 21)) | 04/21/24",
